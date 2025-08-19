@@ -10,6 +10,7 @@ import {
   Phone,
   MapPin,
   Twitter,
+  Home,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -20,6 +21,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { MaxWidthWrapper } from "../ui/MaxWidthWrapper";
 
 export function Footer() {
   // Hydration-safe year
@@ -61,40 +63,13 @@ export function Footer() {
 
   return (
     <footer className="bg-muted/30 border-t">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Newsletter */}
-        <section className="py-10 border-b">
-          <div className="grid gap-6 md:grid-cols-2 md:items-center">
-            <div>
-              <h3 className="text-xl font-bold mb-2">Stay Updated</h3>
-              <p className="text-muted-foreground text-sm">
-                Subscribe to our newsletter for news, offers, and events.
-              </p>
-            </div>
-            <form className="flex flex-col sm:flex-row gap-3">
-              <Input
-                type="email"
-                placeholder="Your email address"
-                aria-label="Email address"
-                className="flex-1"
-                required
-              />
-              <Button type="submit">Subscribe</Button>
-            </form>
-          </div>
-        </section>
-
+      <MaxWidthWrapper>
         {/* Main Footer */}
         <section className="py-10 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           {/* Branding */}
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <div className="h-8 w-8 text-primary">
-                {/* Logo placeholder */}
-                <svg viewBox="0 0 24 24" className="h-full w-full" fill="currentColor">
-                  <path d="M12 3L4 9V21H20V9L12 3Z" />
-                </svg>
-              </div>
+                <Home />
               <span className="font-bold text-lg">Adventure Park</span>
             </div>
             <p className="text-muted-foreground text-sm mb-4">
@@ -103,8 +78,17 @@ export function Footer() {
             </p>
             <div className="flex gap-2">
               {socials.map(({ name, href, icon: Icon }) => (
-                <Link key={name} href={href} target="_blank" rel="noopener noreferrer">
-                  <Button variant="ghost" size="icon" className="h-9 w-9 rounded-full">
+                <Link
+                  key={name}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-9 w-9 rounded-full"
+                  >
                     <Icon className="h-5 w-5" aria-hidden="true" />
                     <span className="sr-only">{name}</span>
                   </Button>
@@ -118,14 +102,19 @@ export function Footer() {
             <h3 className="font-semibold text-lg mb-4">Quick Links</h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="/" className="hover:text-primary">Home</Link>
+                <Link href="/" className="hover:text-primary">
+                  Home
+                </Link>
               </li>
 
               {/* Parks Dropdown */}
               <li>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="link" className="p-0 h-auto text-muted-foreground hover:text-primary">
+                    <Button
+                      variant="link"
+                      className="p-0 h-auto text-muted-foreground hover:text-primary"
+                    >
                       Parks
                     </Button>
                   </DropdownMenuTrigger>
@@ -143,7 +132,10 @@ export function Footer() {
               <li>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="link" className="p-0 h-auto text-muted-foreground hover:text-primary">
+                    <Button
+                      variant="link"
+                      className="p-0 h-auto text-muted-foreground hover:text-primary"
+                    >
                       Activities
                     </Button>
                   </DropdownMenuTrigger>
@@ -158,10 +150,14 @@ export function Footer() {
               </li>
 
               <li>
-                <Link href="/about" className="hover:text-primary">About Us</Link>
+                <Link href="/about" className="hover:text-primary">
+                  About Us
+                </Link>
               </li>
               <li>
-                <Link href="/contact" className="hover:text-primary">Contact</Link>
+                <Link href="/contact" className="hover:text-primary">
+                  Contact
+                </Link>
               </li>
             </ul>
           </div>
@@ -186,7 +182,8 @@ export function Footer() {
             <address className="not-italic space-y-4 text-sm text-muted-foreground">
               <div className="flex items-start">
                 <MapPin className="h-5 w-5 text-primary mr-2 mt-0.5" />
-                Annaba ,Ain achir<br />
+                Annaba ,Ain achir
+                <br />
               </div>
               <div className="flex items-center">
                 <Phone className="h-5 w-5 text-primary mr-2" />
@@ -196,7 +193,10 @@ export function Footer() {
               </div>
               <div className="flex items-center">
                 <Mail className="h-5 w-5 text-primary mr-2" />
-                <a href="mailto:info@adventurepark.com" className="hover:text-primary">
+                <a
+                  href="mailto:info@adventurepark.com"
+                  className="hover:text-primary"
+                >
                   forest-adventure@contact.com
                 </a>
               </div>
@@ -217,7 +217,7 @@ export function Footer() {
             ))}
           </div>
         </section>
-      </div>
+      </MaxWidthWrapper>
     </footer>
   );
 }
