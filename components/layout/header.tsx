@@ -175,29 +175,30 @@ export function Header() {
                   </SheetTrigger>
                   <SheetContent
                     side="right"
-                    className="w-[280px] sm:w-[320px] px-4 py-6"
+                    className="w-[280px] sm:w-[320px] px-4 py-6 flex flex-col"
                   >
                     <VisuallyHidden>
                       <SheetTitle>Mobile Menu</SheetTitle>
                     </VisuallyHidden>
 
-                    <nav className="flex flex-col gap-y-8">
-                      {/* Parks & Activities */}
+                    <nav className="flex flex-col gap-y-2 overflow-y-auto flex-1 pr-2 -mr-2">
                       <div>
-                        <h3 className="text-base font-semibold tracking-tight mb-4">
-                          Explore Parks
+                        <h3 className="text-base font-semibold tracking-tight pt-10 my-4">
+                          Découvrez nos parcs
                         </h3>
                         <ul className="space-y-5">
                           {parks.map((p) => (
-                            <li key={p.slug}>
-                              <p className="text-sm font-medium text-muted-foreground mb-2">
+                            <li key={p.slug} >
+                              <Link href={"#"} className="p-2 rounded-sm text-sm font-medium text-muted-foreground hover:bg-accent mb-2">
                                 {p.name}
-                              </p>
+                              </Link>
                               <ul className="pl-3 space-y-1.5 border-l border-muted-foreground/20">
                                 {p.activities.map((act) => (
                                   <li key={act}>
                                     <Link
-                                      href={`/${p.slug}/${act.toLowerCase()}`}
+                                      href={`/${p.slug}/${act
+                                        .toLowerCase()
+                                        .replace(/\s+/g, "-")}`}
                                       onClick={() => setOpen(false)}
                                       className="block rounded-lg px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground active:scale-[0.98] transition"
                                     >
@@ -210,14 +211,10 @@ export function Header() {
                           ))}
                         </ul>
                       </div>
-
-                      {/* Divider */}
                       <Separator className="my-4" />
-
-                      {/* Static Links */}
                       <div>
                         <h3 className="text-base font-semibold tracking-tight mb-4">
-                          More
+                          Plus
                         </h3>
                         <ul className="space-y-2">
                           {staticLinks.map((link) => (
@@ -235,11 +232,9 @@ export function Header() {
                       </div>
 
                       <Separator className="my-4" />
-
-                      {/* User Section */}
                       <div>
                         <h3 className="text-base font-semibold tracking-tight mb-4">
-                          Account
+                          Compte
                         </h3>
                         <ul className="space-y-2">
                           <li>
@@ -257,7 +252,7 @@ export function Header() {
                               onClick={() => setOpen(false)}
                               className="block rounded-lg px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground active:scale-[0.98] transition"
                             >
-                              Logout
+                              Déconnexion
                             </Link>
                           </li>
                         </ul>

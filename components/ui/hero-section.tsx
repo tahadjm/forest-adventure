@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { Volume2, VolumeX } from "lucide-react"; // Added volume icons
 import { Button } from "@/components/ui/button"; // Added Button component
+import { MaxWidthWrapper } from "./MaxWidthWrapper";
 
 type HeroSectionProps = {
   title: string;
@@ -80,7 +81,7 @@ export function HeroSection({
 
           {backgroundOverlay && (
             <motion.div
-              className="absolute inset-0 bg-black/60 backdrop-blur-[2px]"
+              className="absolute inset-0 bg-black/30 backdrop-blur-[2px]"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.3 }}
@@ -137,67 +138,69 @@ export function HeroSection({
         </div>
       )}
 
-      <div className="container relative z-10 h-full flex flex-col justify-center">
-        <div
-          className={cn(
-            "max-w-3xl mx-auto flex flex-col gap-4",
-            alignClasses[align]
-          )}
-        >
-          <motion.h1
-            initial={{ opacity: 0, y: 30, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{
-              duration: 0.8,
-              delay: 0.2,
-              type: "spring",
-              stiffness: 100,
-              damping: 20,
-            }}
+      <MaxWidthWrapper>
+        <div className="container relative z-10 h-full flex flex-col justify-center">
+          <div
             className={cn(
-              "text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl lg:text-6xl",
-              videoSrc && "text-white"
+              "max-w-3xl mx-auto flex flex-col gap-4",
+              alignClasses[align]
             )}
           >
-            {title}
-          </motion.h1>
-
-          {description && (
-            <motion.p
-              initial={{ opacity: 0, y: 20, filter: "blur(4px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            <motion.h1
+              initial={{ opacity: 0, y: 30, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{
-                duration: 0.7,
-                delay: 0.4,
-                ease: [0.25, 0.46, 0.45, 0.94],
+                duration: 0.8,
+                delay: 0.2,
+                type: "spring",
+                stiffness: 100,
+                damping: 20,
               }}
               className={cn(
-                "text-lg md:text-sm",
-                videoSrc ? "text-white/80" : "text-muted-foreground"
+                "text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl lg:text-6xl",
+                videoSrc && "text-white"
               )}
             >
-              {description}
-            </motion.p>
-          )}
+              {title}
+            </motion.h1>
 
-          {children && (
-            <motion.div
-              initial={{ opacity: 0, y: 25 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 0.6,
-                delay: 0.6,
-                type: "spring",
-                stiffness: 120,
-                damping: 25,
-              }}
-              className="mt-2"
-            >
-              {children}
-            </motion.div>
-          )}
+            {description && (
+              <motion.p
+                initial={{ opacity: 0, y: 20, filter: "blur(4px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                transition={{
+                  duration: 0.7,
+                  delay: 0.4,
+                  ease: [0.25, 0.46, 0.45, 0.94],
+                }}
+                className={cn(
+                  "text-lg md:text-sm",
+                  videoSrc ? "text-white/80" : "text-muted-foreground"
+                )}
+              >
+                {description}
+              </motion.p>
+            )}
+
+            {children && (
+              <motion.div
+                initial={{ opacity: 0, y: 25 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: 0.6,
+                  delay: 0.6,
+                  type: "spring",
+                  stiffness: 120,
+                  damping: 25,
+                }}
+                className="mt-2"
+              >
+                {children}
+              </motion.div>
+            )}
+          </div>
         </div>
-      </div>
+      </MaxWidthWrapper>
     </section>
   );
 }

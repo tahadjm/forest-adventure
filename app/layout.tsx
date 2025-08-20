@@ -1,24 +1,64 @@
-import type React from "react";
-import { Poppins } from "next/font/google";
-import "./globals.css";
+import type React from "react"
+import { Poppins } from "next/font/google"
+import "./globals.css"
+
+import { Header } from "@/components/layout/header"
+import { Footer } from "@/components/layout/footer"
+
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: {
+    default: "Forest Adventure",
+    template: "%s | Forest Adventure",
+  },
+  description: "Book activities, enjoy climbing, laser tag, quads, and more at Adventure Park.",
+  keywords: ["climbing", "adventure park", "laser tag", "quad", "archery", "Annaba"],
+  openGraph: {
+    title: "Forest Adventure",
+    description: "Book and enjoy outdoor activities at Adventure Park Annaba.",
+    url: "https://yourdomain.com",
+    siteName: "Adventure Park",
+    images: [
+      {
+        url: "https://yourdomain.com/og-image.jpg",
+        width: 1200,
+        height: 630,
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Adventure Park",
+    description: "Book outdoor activities at Adventure Park Annaba.",
+    images: ["https://yourdomain.com/twitter-image.jpg"],
+  },
+  icons: {
+    icon: "/logo.png",
+  },
+}
 
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "500", "700", "900"],
   style: ["italic", "normal"],
   variable: "--font-poppins",
-});
+})
 
-export default function RootLayout({
+export default function HomeLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className={`${poppins.className} min-h-screen flex flex-col`}>
-        {children}
+    <html className={`${poppins.className} min-h-screen flex flex-col`}>
+      <body className="flex flex-col min-h-screen">
+        <Header />
+        <main className="flex-grow">{children}</main>
+        <Footer />
       </body>
     </html>
-  );
+  )
 }

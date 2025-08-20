@@ -4,6 +4,9 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { HeroSection } from "@/components/ui/hero-section";
 import { ArrowRight } from "lucide-react";
+import { MaxWidthWrapper } from "@/components/ui/MaxWidthWrapper";
+import { ParksCard } from "@/components/parks-card";
+
 export default function HomePage() {
   return (
     <main>
@@ -28,6 +31,9 @@ export default function HomePage() {
           </Button>
         </div>
       </HeroSection>
+      <MaxWidthWrapper className="mt-16 mb-20">
+        <ParksCard />
+      </MaxWidthWrapper>
     </main>
   );
 }
