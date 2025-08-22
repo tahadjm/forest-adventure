@@ -7,6 +7,7 @@ import Link from "next/link";
 import { ArrowRight, MapPin } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Card,
   CardDescription,
@@ -15,10 +16,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { parks } from "@/lib/mock-data";
+import HeaderSection from "./ui/header-section";
 
-/* ------------------------------
- * Animation Variants
- * ------------------------------ */
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 40 },
   visible: {
@@ -43,9 +42,6 @@ const hoverVariants: Variants = {
   },
 };
 
-/* ------------------------------
- * Utility
- * ------------------------------ */
 const getGridClasses = (count: number) => {
   if (count === 0) return "grid grid-cols-1";
   if (count === 1) return "grid grid-cols-1 max-w-sm mx-auto";
@@ -53,28 +49,58 @@ const getGridClasses = (count: number) => {
   return "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3";
 };
 
-/* ------------------------------
- * Subcomponent: ParkCardItem
- * ------------------------------ */
+const ParkCardSkeleton = () => (
+  <motion.div variants={fadeUp} className="w-full max-w-xs">
+    <Card className="overflow-hidden shadow-md border-0 bg-card/60 backdrop-blur-sm">
+      {/* Image Skeleton */}
+      <div className="relative h-44 overflow-hidden">
+        <Skeleton className="w-full h-full" />
+      </div>
+
+      {/* Content Skeleton */}
+      <CardHeader className="space-y-3 p-4">
+        <div className="flex flex-col items-start gap-2">
+          {/* Title Skeleton */}
+          <Skeleton className="h-6 w-3/4" />
+
+          {/* Badge Skeleton */}
+          <div className="flex items-center gap-1">
+            <Skeleton className="h-4 w-4 rounded-full" />
+            <Skeleton className="h-5 w-20 rounded-full" />
+          </div>
+        </div>
+
+        {/* Description Skeleton */}
+        <div className="space-y-2">
+          <Skeleton className="h-4 w-full" />
+          <Skeleton className="h-4 w-2/3" />
+        </div>
+      </CardHeader>
+
+      {/* Footer Skeleton */}
+      <CardFooter className="p-4 pt-0">
+        <Skeleton className="h-9 w-full rounded-md" />
+      </CardFooter>
+    </Card>
+  </motion.div>
+);
+
 const ParkCardItem = ({ park }: { park: (typeof parks)[number] }) => (
   <motion.div variants={fadeUp} whileHover="hover" className="w-full max-w-xs">
     <motion.div variants={hoverVariants}>
-      <Card className="overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 border-0 bg-card/60 backdrop-blur-sm">
-        {/* Image */}
+      <Card className="overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-400 border-0 bg-card/60 backdrop-blur-sm rounded-sm pt-0">
         <div className="relative h-44 overflow-hidden group">
           <Image
             src={park.imageUrl || "/placeholder.svg"}
             alt={`Vue du ${park.name}`}
             fill
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            className="object-fill transition-transform duration-500 group-hover:scale-105"
             sizes="(max-width: 768px) 100vw, 
                    (max-width: 1200px) 50vw, 
                    33vw"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
         </div>
 
-        {/* Content */}
         <CardHeader className="space-y-3 p-4">
           <div className="flex flex-col items-start gap-2">
             <CardTitle className="text-lg font-semibold leading-tight text-card-foreground">
@@ -94,16 +120,19 @@ const ParkCardItem = ({ park }: { park: (typeof parks)[number] }) => (
           </CardDescription>
         </CardHeader>
 
-        {/* Footer */}
         <CardFooter className="p-4 pt-0">
-          <Button asChild size="sm" className="w-full group hover:bg-primary/90">
+          <Button
+            asChild
+            size="sm"
+            className="w-full group hover:bg-primary/90"
+          >
             <Link
               href={`/park/${park.id}`}
               className="flex items-center justify-center gap-2 text-sm"
               aria-label={`Explorer le parc ${park.name}`}
             >
               Explorer le Parc
-              <ArrowRight className="h-3 w-3 transition-transform duration-200 group-hover:translate-x-1" />
+              <ArrowRight className="h-3 w-3 transition-transform duration-400 group-hover:translate-x-1" />
             </Link>
           </Button>
         </CardFooter>
@@ -112,10 +141,51 @@ const ParkCardItem = ({ park }: { park: (typeof parks)[number] }) => (
   </motion.div>
 );
 
+const SkeletonGrid = ({ count = 6 }: { count?: number }) => (
+  <motion.div
+    className={`${getGridClasses(count)} gap-10 place-items-center`}
+    variants={containerStagger}
+    initial="hidden"
+    animate="visible"
+  >
+    {Array.from({ length: count }).map((_, index) => (
+      <ParkCardSkeleton key={`skeleton-${index}`} />
+    ))}
+  </motion.div>
+);
+
+/* ------------------------------
+ * Subcomponent: HeaderSkeleton
+ * ------------------------------ */
+const HeaderSkeleton = () => (
+  <motion.div
+    initial="hidden"
+    animate="visible"
+    variants={containerStagger}
+    className="flex flex-col items-center text-center mb-12"
+  >
+    <motion.div variants={fadeUp} className="space-y-4">
+      <Skeleton className="h-10 w-80 mx-auto" />
+      <div className="space-y-2">
+        <Skeleton className="h-6 w-96 mx-auto" />
+        <Skeleton className="h-6 w-72 mx-auto" />
+      </div>
+    </motion.div>
+  </motion.div>
+);
+
 /* ------------------------------
  * Main Component: ParksCard
  * ------------------------------ */
-export const ParksCard = () => {
+interface ParksCardProps {
+  loading?: boolean;
+  skeletonCount?: number;
+}
+
+export const ParksCard = ({
+  loading = false,
+  skeletonCount = 6,
+}: ParksCardProps) => {
   const [hasAnimated, setHasAnimated] = useState(false);
 
   // Run animation only once on mount
@@ -131,38 +201,38 @@ export const ParksCard = () => {
       role="main"
       aria-label="Parcs disponibles"
     >
-      {/* Header */}
-      <motion.div
-        initial="hidden"
-        animate={hasAnimated ? "visible" : "hidden"}
-        variants={containerStagger}
-        className="flex flex-col items-center text-center mb-12"
-      >
-        <motion.h2
-          variants={fadeUp}
-          className="text-4xl font-bold mb-4"
-        >
-          Découvrez nos Parcs
-        </motion.h2>
-        <motion.p
-          variants={fadeUp}
-          className="text-lg text-muted-foreground max-w-2xl"
-        >
-          Explorez des destinations exceptionnelles et vivez des aventures
-          inoubliables
-        </motion.p>
-      </motion.div>
+      {loading ? (
+        <HeaderSkeleton />
+      ) : (
+        <HeaderSection
+          title="Découvrez nos Parcs"
+          subtitle="Explorez des destinations exceptionnelles et vivez des aventures
+            inoubliables"
+        />
+      )}
 
-      {/* Cards */}
-      <motion.div
-        className={`${getGridClasses(parks.length)} gap-10 place-items-center`}
-        variants={containerStagger}
-        initial="hidden"
-        animate={hasAnimated ? "visible" : "hidden"}
-      >
-        {hasParks ? (
-          parks.map((park) => <ParkCardItem key={park.id} park={park} />)
-        ) : (
+      {loading ? (
+        <SkeletonGrid count={skeletonCount} />
+      ) : hasParks ? (
+        <motion.div
+          className={`${getGridClasses(
+            parks.length
+          )} gap-10 place-items-center`}
+          variants={containerStagger}
+          initial="hidden"
+          animate={hasAnimated ? "visible" : "hidden"}
+        >
+          {parks.map((park) => (
+            <ParkCardItem key={park.id} park={park} />
+          ))}
+        </motion.div>
+      ) : (
+        <motion.div
+          variants={containerStagger}
+          initial="hidden"
+          animate={hasAnimated ? "visible" : "hidden"}
+          className={`${getGridClasses(0)} gap-10 place-items-center`}
+        >
           <motion.div
             variants={fadeUp}
             className="col-span-full flex flex-col items-center justify-center py-16 px-4"
@@ -174,8 +244,8 @@ export const ParksCard = () => {
               Revenez plus tard pour découvrir de nouveaux parcs.
             </p>
           </motion.div>
-        )}
-      </motion.div>
+        </motion.div>
+      )}
     </section>
   );
 };

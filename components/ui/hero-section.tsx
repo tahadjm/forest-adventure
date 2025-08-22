@@ -38,8 +38,6 @@ export function HeroSection({
       setIsMuted(!isMuted);
     }
   };
-
-  console.log("Hero Section Video Source:", videoSrc);
   const heightClasses = {
     small: "py-12 md:py-16",
     medium: "py-16 md:py-24",

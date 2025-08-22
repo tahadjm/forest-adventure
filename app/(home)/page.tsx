@@ -6,6 +6,8 @@ import { HeroSection } from "@/components/ui/hero-section";
 import { ArrowRight } from "lucide-react";
 import { MaxWidthWrapper } from "@/components/ui/MaxWidthWrapper";
 import { ParksCard } from "@/components/parks-card";
+import { HistorySection } from "@/components/history-section";
+import NewsSection from "@/components/news-section";
 
 export default function HomePage() {
   return (
@@ -33,6 +35,8 @@ export default function HomePage() {
       </HeroSection>
       <MaxWidthWrapper className="mt-16 mb-20">
         <ParksCard />
+        <NewsSection />
+        <HistorySection />
       </MaxWidthWrapper>
     </main>
   );
